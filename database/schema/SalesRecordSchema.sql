@@ -1,0 +1,45 @@
+--	DDL – Data Definition Language
+-- DROP TABLES
+DROP TABLE IF EXISTS [Sales]
+DROP TABLE IF EXISTS [Store]
+DROP TABLE IF EXISTS [Product]
+DROP TABLE IF EXISTS [Customer]
+
+-- CREATE TABLES
+CREATE TABLE [Customer] (
+	[Id] INT IDENTITY NOT NULL,
+	[Name] NVARCHAR(100) NOT NULL,
+	[Address] NVARCHAR(100) NULL
+	CONSTRAINT PK_Customer PRIMARY KEY ([Id])
+)
+
+CREATE TABLE [Product] (
+	[Id] INT IDENTITY NOT NULL,
+	[Name] NVARCHAR(100) NOT NULL,
+	[Price] DECIMAL(10,2) NOT NULL,
+	CONSTRAINT PK_Product PRIMARY KEY ([Id])
+)
+
+CREATE TABLE [Store] (
+	[Id] INT IDENTITY NOT NULL,
+	[Name] NVARCHAR(100) NOT NULL,
+	[Address] NVARCHAR(100) NULL,
+	CONSTRAINT PK_Store PRIMARY KEY ([Id])
+)
+
+CREATE TABLE [Sales] (
+	[Id] INT IDENTITY NOT NULL,
+	[DateSold] DATE NOT NULL,
+	[ProductId] INT NOT NULL,
+	[CustomerId] INT NOT NULL,
+	[StoreId] INT NOT NULL,
+	CONSTRAINT PK_Sales PRIMARY KEY ([Id]),
+	CONSTRAINT FK_Sales_Product 
+		FOREIGN KEY ([ProductId]) REFERENCES Product ([Id]),
+	CONSTRAINT FK_Sales_Customer 
+		FOREIGN KEY ([CustomerId]) REFERENCES Customer ([Id]),
+	CONSTRAINT FK_Sales_Store 
+		FOREIGN KEY ([StoreId]) REFERENCES Store ([Id])
+)
+
+--EXEC sp_changedbowner 'sa'
